@@ -167,3 +167,4 @@ v1 的稳定版本为 1.9.2，可以通过 `git checkout v1` 来切换到 v1 版
  </picture>
 </a>
 # xiaozhi-self
+# xiaozhi-self-test
