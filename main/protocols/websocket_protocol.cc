@@ -173,21 +173,13 @@ bool WebsocketProtocol::OpenAudioChannel() {
 
     // Emit identical connection info across every log level so it is visible even if
     // runtime log verbosity hides certain levels.
-    auto log_connection_attempt = [&](esp_log_level_t level, const char* level_name) {
-        ESP_LOG_LEVEL_LOCAL(
-            TAG,
-            level,
-            "[%s] Connecting to websocket server: url=\"%s\" token=\"%s\" version=%d",
-            level_name,
-            url.c_str(),
-            token.c_str(),
-            version_);
-    };
-    log_connection_attempt(ESP_LOG_ERROR, "ERROR");
-    log_connection_attempt(ESP_LOG_WARN, "WARN");
-    log_connection_attempt(ESP_LOG_INFO, "INFO");
-    log_connection_attempt(ESP_LOG_DEBUG, "DEBUG");
-    log_connection_attempt(ESP_LOG_VERBOSE, "VERBOSE");
+    // Duplicate the same message at every log level so it shows up regardless of runtime
+    // verbosity settings.
+    ESP_LOG_LEVEL_LOCAL(TAG, ESP_LOG_ERROR, "[ERROR] Connecting to websocket server: url=\"%s\" token=\"%s\" version=%d", url.c_str(), token.c_str(), version_);
+    ESP_LOG_LEVEL_LOCAL(TAG, ESP_LOG_WARN, "[WARN] Connecting to websocket server: url=\"%s\" token=\"%s\" version=%d", url.c_str(), token.c_str(), version_);
+    ESP_LOG_LEVEL_LOCAL(TAG, ESP_LOG_INFO, "[INFO] Connecting to websocket server: url=\"%s\" token=\"%s\" version=%d", url.c_str(), token.c_str(), version_);
+    ESP_LOG_LEVEL_LOCAL(TAG, ESP_LOG_DEBUG, "[DEBUG] Connecting to websocket server: url=\"%s\" token=\"%s\" version=%d", url.c_str(), token.c_str(), version_);
+    ESP_LOG_LEVEL_LOCAL(TAG, ESP_LOG_VERBOSE, "[VERBOSE] Connecting to websocket server: url=\"%s\" token=\"%s\" version=%d", url.c_str(), token.c_str(), version_);
 
     if (!websocket_->Connect(url.c_str())) {
         ESP_LOGE(TAG, "Failed to connect to websocket server");
